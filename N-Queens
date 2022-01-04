@@ -1,0 +1,49 @@
+Problem link : https://leetcode.com/problems/n-queens/ 
+
+base case when we reach after n-1 th row then we have successfully placed queens until last row 
+thats the possible ans
+
+
+https://leetcode.com/submissions/detail/611652109/
+
+
+void backtrack(int n , vector<string>  &Queens ,vector<vector<string> > &ans ,int row=0){
+        if(row<n){
+            for(int j=0; j<n ;j++){
+                if( is_valid(n,Queens,row,j) ){
+                    Queens[row][j]='Q';
+                    backtrack(n , Queens ,ans ,row+1);
+                    Queens[row][j]='.'; //undo step
+                }
+            }
+        }
+        //will only push_back once row==n
+        if(row==n) ans.push_back(Queens);
+    }
+    
+    bool is_valid(int n, vector<string>   &Queens ,int row ,int col){
+        //check for column
+        for(int i=0;i<row;i++){
+            if(Queens[i][col]=='Q' ) return false;
+        }
+        //check for left diagonal
+        for( int i=row-1,j=col -1 ; i>=0 and j>=0 ;i--,j--){
+            if(Queens[i][j]=='Q') return false;
+        }
+        
+        //check for right diagonal
+        for( int i=row-1,j=col+1 ;i>=0 and j<n ;i--,j++){
+            if(Queens[i][j]=='Q') return false;
+        }
+        
+        return true;
+    }
+    
+    
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        vector<string>  Queens(n,string(n , '.') );
+        vector<vector<string> > ans;
+        backtrack(n ,Queens, ans );
+        return ans;
+    }
