@@ -1,0 +1,42 @@
+https://leetcode.com/problems/maximum-length-of-a-concatenated-string-with-unique-characters/ 
+
+
+bool is_unique(string temp ,set<char> &frequency ){
+        vector<bool > temp_frequency(26,0);
+        
+        
+        for(char ch:temp){
+            cout<<(ch-97)<<endl;
+            if(temp_frequency[ch-97] ) return false;
+            temp_frequency[ch-97]=true;
+            if(frequency.find(ch)!=frequency.end() ) return false;
+        }
+        return true;
+    }
+    void backtrack(vector<string> &arr, int &maximum_length, set<char> &frequency,int idx=0){
+        int len=arr.size();
+        
+        for(int j=idx;j<len;j++){
+            if(   is_unique(arr[j],frequency) ){
+                /* it will return true if every character of arr[idx] isnt already present in frequency set data struture */
+            
+            
+            for(auto ch:arr[j]) frequency.insert(ch);
+            int set_size=frequency.size();
+            maximum_length=max(maximum_length,set_size );
+            cout<<maximum_length<<endl;
+            backtrack(arr,maximum_length,frequency , j+1);
+            //undo step
+            for(auto ch:arr[j]) {
+                    frequency.erase(ch);          
+                }
+            }
+        }
+    }
+public:
+    int maxLength(vector<string>& arr) {
+        set<char> frequency;
+        int maximum_length=0;
+        backtrack(arr, maximum_length,frequency);
+        return maximum_length;
+    }
