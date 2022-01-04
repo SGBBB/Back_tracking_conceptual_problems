@@ -1,0 +1,38 @@
+problem link: https://practice.geeksforgeeks.org/problems/rat-in-a-maze-problem/1 
+corner case :when our bottom end cell is having obstacle or if starting cell has obstacle then why are we even putting efforts ahead
+
+
+
+void backtrack(vector<vector<int>> &m  ,set<string> & ans ,int n ,vector<vector<bool > > &visited  ,int i,int j,string path ){
+        if( i==n-1 and j==n-1  ){
+            // cout<<path<<endl;
+            ans.insert(path );
+            return;
+        }
+        
+        if(   i<0 or i>n-1 or j<0 or j>n-1 or !m[i][j ] or visited[i][j] ) return ; 
+        
+        
+    
+            visited[i][j]=true;
+            backtrack(m ,ans,n,visited, i-1,j,path+'U');
+            backtrack(m ,ans,n,visited, i+1,j,path+'D');
+            backtrack(m ,ans,n,visited, i,j-1,path+'L');
+            backtrack(m ,ans,n,visited, i,j+1,path+'R');
+            visited[i][j]=false;
+        
+        
+        
+        
+    }
+    public:
+    vector<string> findPath(vector<vector<int>> &m, int n ,int i=0, int j=0) {
+        int r=m.size() ,c=m[0].size();
+    if(!m[n-1][n-1] or !m[0][0])       return {};
+    set<string> ans;
+    vector<vector<bool > > visited(n,vector<bool > (n,0) );
+    backtrack(m , ans ,n , visited,0,0,"");
+    vector<string> response;
+    for(auto i:ans) response.push_back(i);
+        return response;
+    }
