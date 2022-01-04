@@ -1,0 +1,33 @@
+problem link: https://practice.geeksforgeeks.org/problems/partition-array-to-k-subsets/1 
+
+Base cases  are when we cant completely divide the total sum of all numbers in array and getting remainder 1 so return false in this case.
+
+bool backtrack(vector<int > &nums ,vector<bool > &visited ,int k ,int sum ,int curr_sum=0 ,int idx=0){
+        int len=nums.size() ;
+        
+        if(!k) return true;
+        if( curr_sum>sum )   return false;
+        if( curr_sum==sum ) return backtrack(nums,visited ,k-1,sum ,0 ,0 );
+        int i=idx;
+        for(;i<len;i++){
+            if( !visited[i] ){
+                visited[i]=true;
+                if( backtrack(nums,visited ,k,sum,curr_sum+nums[i] ,i+1)   ) 
+                    return true;
+                //undo step
+                visited[i]=false;
+            }
+        }
+        return false;
+        
+    }
+    
+public:
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        int sum=0;
+        for(int i:nums) sum+= i;
+        int len=nums.size();
+        if( (len<k)  or (sum % k ) ) return false;
+        vector<bool > visited(len,false);
+        return backtrack(nums,visited,k,sum/k);
+    }
