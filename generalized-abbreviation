@@ -1,0 +1,16 @@
+Problem Link:  https://leetcode.com/problems/generalized-abbreviation/ 
+
+void abbreviate(string& str, string s,vector<string >&ans ,int idx=0 ,int skip_count=0){
+    int len=str.size();
+    
+    if(idx==len){
+        if(skip_count>0 ) s+='0'+skip_count;
+        ans.push_back(s);
+        return ;
+    }
+    abbreviate(str,s ,ans ,idx+1,skip_count+1);
+    if(skip_count>0 ) s+='0'+skip_count  ;
+    s+= str[idx];
+    abbreviate(str,s,ans,idx+1,0);
+    
+}
