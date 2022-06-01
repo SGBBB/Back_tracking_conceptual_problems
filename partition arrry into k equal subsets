@@ -12,6 +12,7 @@ bool backtrack(vector<int > &nums ,vector<bool > &visited ,int k ,int sum ,int c
         for(;i<len;i++){
             if( !visited[i] ){
                 visited[i]=true;
+                //if Im receiving true from any of the iterations then retrun true to above states
                 if( backtrack(nums,visited ,k,sum,curr_sum+nums[i] ,i+1)   ) 
                     return true;
                 //undo step
